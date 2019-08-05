@@ -452,7 +452,7 @@ public class FastBuilder {
 		return true;
 	}
 
-	public void extractWords(String freqFile, String entropyFile) {
+	public void extractWords(String freqFile, String entropyFile, float min_pmi, float min_e) {
 
 		LOG.info("start to extract words");
 		
@@ -521,9 +521,10 @@ public class FastBuilder {
 				double pmi = Math.log(pf) / Math.log(2);
 				if (Double.isNaN(pmi)) continue;
 				double pp = -1;
-				if (null != posProp.get(w.subSequence(0, 1)) && null != posProp.get(w.subSequence(w.length() - 1, w.length())))
-					pp = Math.min(posProp.get(w.subSequence(0, 1))[0], posProp.get(w.subSequence(w.length() - 1, w.length()))[2]);
-				if (pmi < 1 || e < 2 || pp < 0.1)
+				//only use pmi and right/left entropy 
+//				if (null != posProp.get(w.subSequence(0, 1)) && null != posProp.get(w.subSequence(w.length() - 1, w.length())))
+//					pp = Math.min(posProp.get(w.subSequence(0, 1))[0], posProp.get(w.subSequence(w.length() - 1, w.length()))[2]);
+				if (pmi < min_pmi || e < min_e)
 					continue;
 				ww.write(w + "\t" + f + "\t" + pmi + "\t" + e + "\t"  + pp + "\n");
 

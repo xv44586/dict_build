@@ -20,10 +20,20 @@ public class Main {
 		}
 		
 		String rawpath = null;
-		if (args.length > 0) {
+		float min_e = 2.0f;
+		float min_pmi = 1.0f;
+		if (args.length == 1) {
 			rawpath = args[0];
 		}
-		
+		else if (args.length == 2){
+			rawpath = args[0];
+			min_pmi = Float.parseFloat(args[1]);
+		}
+		else  if(args.length == 3){
+			rawpath = args[0];
+			min_pmi = Float.parseFloat(args[1]);
+			min_e = Float.parseFloat(args[2]);
+		}
 		String left = null;
 		String right = null;
 		String entropyfile = null;
@@ -37,6 +47,6 @@ public class Main {
 		if (null == entropyfile)
 			entropyfile = builder.mergeEntropy(right, left);
 
-		builder.extractWords(right, entropyfile);
+		builder.extractWords(right, entropyfile, min_pmi, min_e);
 	}
 }
